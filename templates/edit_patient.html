@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Edit Patient</h2>
+
+<div class="panel">
+
+<form method="POST">
+
+<div class="form-grid">
+
+<input
+type="text"
+name="first_name"
+value="{{ patient.first_name }}">
+
+<input
+type="text"
+name="last_name"
+value="{{ patient.last_name }}">
+
+<input
+type="text"
+name="gender"
+value="{{ patient.gender }}">
+
+<input
+type="text"
+name="phone"
+value="{{ patient.phone }}">
+
+<input
+type="email"
+name="email"
+value="{{ patient.email }}">
+
+</div>
+
+<textarea
+name="address">
+
+{{ patient.address }}
+
+</textarea>
+
+<br>
+
+<button class="btn-submit">
+
+Update Patient
+
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

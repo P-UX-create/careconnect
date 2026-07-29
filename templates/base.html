@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareConnect Clinic</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script defer
+            src="{{ url_for('static', filename='js/script.js') }}">
+    </script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>🏥 CareConnect</h2>
+
+<a href="{{ url_for('dashboard') }}">
+🏠 Dashboard
+</a>
+
+<a href="{{ url_for('patient.patients') }}">
+👨 Patients
+</a>
+
+<a href="{{ url_for('doctor.doctors') }}">
+👨‍⚕️ Doctors
+</a>
+
+<a href="{{ url_for('appointment.appointments') }}">
+📅 Appointments
+</a>
+
+<a href="{{ url_for('report.reports') }}">
+📊 Reports
+</a>
+
+<hr>
+
+<a href="{{ url_for('auth.logout') }}">
+🚪 Logout
+</a>
+
+
+<div style="position:absolute;
+bottom:20px;
+left:20px;
+color:white;
+font-size:12px;">
+
+CareConnect v1.0
+
+<br>
+
+© 2026
+
+</div>
+
+
+
+</div>
+
+
+<div class="main">
+
+    <header>
+
+        <h1>Clinic Appointment System</h1>
+
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+    {% block content %}
+
+    {% endblock %}
+
+</div>
+
+
+</body>
+
+</html>

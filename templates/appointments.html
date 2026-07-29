@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Appointment Management</h2>
+
+<div class="panel">
+
+    <h3>Book New Appointment</h3>
+
+    <form action="{{ url_for('appointment.book_appointment') }}" method="POST">
+
+        <div class="form-grid">
+
+            <select name="patient_id" required>
+
+                <option value="">Select Patient</option>
+
+                {% for patient in patients %}
+
+                <option value="{{ patient.id }}">
+                    {{ patient.first_name }} {{ patient.last_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <select name="doctor_id" required>
+
+                <option value="">Select Doctor</option>
+
+                {% for doctor in doctors %}
+
+                <option value="{{ doctor.id }}">
+                    Dr. {{ doctor.fullname }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <input
+                type="date"
+                name="appointment_date"
+                required>
+
+            <input
+                type="time"
+                name="appointment_time"
+                required>
+
+        </div>
+
+        <textarea
+            name="reason"
+            rows="4"
+            placeholder="Reason for Appointment"
+            required></textarea>
+
+        <button class="btn-submit">
+            Book Appointment
+        </button>
+
+    </form>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h3>Appointment Schedule</h3>
+
+<input
+type="text"
+id="searchAppointment"
+placeholder="Search by Patient or Doctor..."
+onkeyup="searchAppointments()">
+
+<br><br>
+
+<table id="appointmentTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Patient</th>
+
+<th>Doctor</th>
+
+<th>Date</th>
+
+<th>Time</th>
+
+<th>Status</th>
+
+<th>Reason</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for appointment in appointments %}
+
+<tr>
+
+<td>{{ appointment.id }}</td>
+
+<td>
+
+{{ appointment.patient.first_name }}
+
+{{ appointment.patient.last_name }}
+
+</td>
+
+<td>
+
+Dr. {{ appointment.doctor.fullname }}
+
+</td>
+
+<td>
+
+{{ appointment.appointment_date }}
+
+</td>
+
+<td>
+
+{{ appointment.appointment_time }}
+
+</td>
+
+<td>
+
+{{ appointment.status }}
+
+</td>
+
+
+<td>{{ appointment.reason }}</td>
+
+<td>
+
+{% if appointment.status == "Scheduled" %}
+
+<a class="complete-btn"
+href="{{ url_for('appointment.complete', id=appointment.id) }}">
+
+Complete
+
+</a>
+
+<a class="cancel-btn"
+href="{{ url_for('appointment.cancel', id=appointment.id) }}"
+onclick="return confirm('Cancel this appointment?')">
+
+Cancel
+
+</a>
+
+{% elif appointment.status == "Completed" %}
+
+<span class="completed-status">
+
+Completed
+
+</span>
+
+{% elif appointment.status == "Cancelled" %}
+
+<span class="cancelled-status">
+
+Cancelled
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

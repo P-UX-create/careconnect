@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Clinic Reports</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Total Patients</h3>
+        <h1>{{ patients }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>Total Doctors</h3>
+        <h1>{{ doctors }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>Total Appointments</h3>
+        <h1>{{ appointments }}</h1>
+    </div>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h3>Clinic Attendance Summary</h3>
+
+<table>
+
+<tr>
+<th>Category</th>
+<th>Total</th>
+</tr>
+
+<tr>
+<td>Registered Patients</td>
+<td>{{ patients }}</td>
+</tr>
+
+<tr>
+<td>Available Doctors</td>
+<td>{{ doctors }}</td>
+</tr>
+
+<tr>
+<td>Appointments Scheduled</td>
+<td>{{ appointments }}</td>
+</tr>
+
+</table>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h3>Doctor Utilisation</h3>
+
+<p>
+This report gives a quick overview of the clinic's workforce.
+As more appointments are booked, administrators can compare
+the number of doctors with the appointment workload.
+</p>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h3>System Summary</h3>
+
+<ul>
+
+<li>Total Patients : {{ patients }}</li>
+
+<li>Total Doctors : {{ doctors }}</li>
+
+<li>Total Appointments : {{ appointments }}</li>
+
+<li>System Status : Online</li>
+
+<li>Database : SQLite</li>
+
+</ul>
+
+</div>
+
+<br>
+
+<button onclick="window.print()" class="btn-submit">
+
+🖨 Print Report
+
+</button>
+
+{% endblock %}

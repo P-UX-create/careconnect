@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<p>
+
+Welcome to the CareConnect Clinic Management System.
+
+Manage patients, doctors, appointments and reports from one place.
+
+</p>
+
+<br>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Total Patients</h3>
+        <h1>{{ patient_count }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>Total Doctors</h3>
+        <h1>{{ doctor_count }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>Appointments</h3>
+        <h1>{{ appointment_count }}</h1>
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>Today's Overview</h3>
+
+<div class="cards">
+
+<div class="card">
+
+<h4>Patients</h4>
+
+<p>Total registered patients in the system.</p>
+
+</div>
+
+<div class="card">
+
+<h4>Doctors</h4>
+
+<p>Manage doctors and their specialties.</p>
+
+</div>
+
+<div class="card">
+
+<h4>Appointments</h4>
+
+<p>Track and manage clinic appointments.</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="dashboard-row">
+
+    <div class="panel">
+
+        <h3>Quick Actions</h3>
+
+        <a class="btn" href="{{ url_for('patient.patients') }}">
+            Register as a Patient
+        </a>
+
+        <a class="btn" href="{{ url_for('doctor.doctors') }}">
+            Add Doctor
+        </a>
+
+        <a class="btn" href="{{ url_for('appointment.appointments') }}">
+            Book Appointment
+        </a>
+
+        <a class="btn" href="{{ url_for('report.reports') }}">
+            View Reports
+        </a>
+
+    </div>
+
+    <div class="panel">
+
+        <h3>System Information</h3>
+
+        <table>
+
+            <tr>
+                <td>Clinic</td>
+                <td>CareConnect</td>
+            </tr>
+
+            <tr>
+                <td>Status</td>
+                <td>🟢 Online</td>
+            </tr>
+
+            <tr>
+                <td>Database</td>
+                <td>PostgreSQL</td>
+            </tr>
+
+            <tr>
+                <td>Version</td>
+                <td>1.0</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <h3>Welcome</h3>
+
+    <p>
+        Welcome to the CareConnect Clinic Appointment System.
+        Use the navigation menu on the left to manage patients,
+        doctors, appointments and reports.
+    </p>
+
+</div>
+
+
+<div class="panel">
+
+<h3>Clinic Workflow</h3>
+
+<ol>
+
+<li>Register as a Patient</li>
+
+<li>Add Doctor</li>
+
+<li>Book Appointment</li>
+
+<li>Doctor Consultation</li>
+
+<li>Medical Record Update</li>
+
+<li>Generate Reports</li>
+
+</ol>
+
+</div>
+
+
+
+<div class="panel">
+
+<h3>Quick Statistics</h3>
+
+<table>
+
+<tr>
+
+<td>Patients Registered</td>
+
+<td>{{ patient_count }}</td>
+
+</tr>
+
+<tr>
+
+<td>Doctors Available</td>
+
+<td>{{ doctor_count }}</td>
+
+</tr>
+
+<tr>
+
+<td>Appointments Booked</td>
+
+<td>{{ appointment_count }}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+
+{% endblock %}
