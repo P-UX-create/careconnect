@@ -30,6 +30,28 @@ app.register_blueprint(appointment)
 app.register_blueprint(report)
 
 
+with app.app_context():
+
+        db.create_all()
+
+        if User.query.filter_by(username="careconnect").first() is None:
+
+            admin = User(
+                fullname="System Administrator",
+                username="careconnect",
+                email="admin@careconnect.com",
+                role="Administrator"
+            )
+
+            admin.set_password("careconnect123")
+
+            db.session.add(admin)
+            db.session.commit()
+
+            print("Default admin account created.")
+
+
+
 @app.route("/")
 def home():
     return redirect(url_for("auth.login"))
@@ -60,25 +82,5 @@ def internal_server(error):
 
 
 if __name__ == "__main__":
-
-    with app.app_context():
-
-        db.create_all()
-
-        if User.query.filter_by(username="careconnect").first() is None:
-
-            admin = User(
-                fullname="System Administrator",
-                username="careconnect",
-                email="admin@careconnect.com",
-                role="Administrator"
-            )
-
-            admin.set_password("careconnect123")
-
-            db.session.add(admin)
-            db.session.commit()
-
-            print("Default admin account created.")
 
     app.run(debug=True)
