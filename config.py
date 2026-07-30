@@ -1,10 +1,12 @@
 import os
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-
 class Config:
-    SECRET_KEY = "careconnect_secret_key"
+    SECRET_KEY = os.getenv("SECRET_KEY", "careconnect_secret_key")
 
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:peace123@localhost:5432/careconnect"
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    if SQLALCHEMY_DATABASE_URI:
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgres://", "postgresql://", 1
+        )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
