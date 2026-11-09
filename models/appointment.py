@@ -18,6 +18,12 @@ class Appointment(db.Model):
 
     status = db.Column(db.String(30), default="Pending")
 
-    patient = db.relationship("Patient", backref="appointments")
+    patient = db.relationship(
+        "Patient",
+        backref=db.backref("appointments", cascade="all, delete-orphan")
+    )
 
-    doctor = db.relationship("Doctor", backref="appointments")
+    doctor = db.relationship(
+        "Doctor",
+        backref=db.backref("appointments", cascade="all, delete-orphan")
+    )

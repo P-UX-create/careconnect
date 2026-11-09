@@ -56,7 +56,16 @@ def book_appointment():
     db.session.add(new_appointment)
     db.session.commit()
 
-    flash("Appointment booked successfully!")
+    flash(
+    {
+        "patient": f"{new_appointment.patient.first_name} {new_appointment.patient.last_name}",
+        "doctor": new_appointment.doctor.fullname,
+        "date": new_appointment.appointment_date.strftime("%d %B %Y"),
+        "time": new_appointment.appointment_time.strftime("%I:%M %p"),
+        "status": new_appointment.status
+    },
+    "appointment_success"
+)
 
     return redirect(url_for("appointment.appointments"))
 

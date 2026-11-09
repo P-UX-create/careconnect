@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>Welcome, Dr. {{ doctor.fullname }}</h2>
+
+<p>Set the times you are available and see the patients who have booked with you.</p>
+
+{% if slots_count == 0 %}
+<div class="alert alert-warning">
+    You have not set any available times yet, so patients cannot book you.
+    <a href="{{ url_for('doctor.availability') }}">Set your availability</a>.
+</div>
+{% endif %}
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card blue">
+        <h3>📅 Today</h3>
+        <h1>{{ today_count }}</h1>
+    </div>
+
+    <div class="dashboard-card purple">
+        <h3>⏳ Upcoming</h3>
+        <h1>{{ upcoming_count }}</h1>
+    </div>
+
+    <div class="dashboard-card green">
+        <h3>✅ Completed</h3>
+        <h1>{{ completed_count }}</h1>
+    </div>
+
+    <div class="dashboard-card red">
+        <h3>🕒 Time Slots Set</h3>
+        <h1>{{ slots_count }}</h1>
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <h3>Quick Actions</h3>
+
+    <a class="btn btn-inline" href="{{ url_for('doctor.availability') }}">My Availability</a>
+    <a class="btn btn-inline" href="{{ url_for('doctor.profile') }}">My Details</a>
+    <a class="btn btn-inline" href="{{ url_for('doctor.appointments') }}">All Appointments</a>
+
+</div>
+
+<div class="panel">
+
+    <h3>Your Next Patients</h3>
+
+    {% if upcoming %}
+    <table>
+        <thead><tr><th>Patient</th><th>Date</th><th>Time</th><th>Reason</th></tr></thead>
+        <tbody>
+        {% for a in upcoming %}
+        <tr>
+            <td>{{ a.patient.first_name }} {{ a.patient.last_name }}</td>
+            <td>{{ a.appointment_date.strftime("%a, %d %b %Y") }}</td>
+            <td>{{ fmt_time(a.appointment_time) }}</td>
+            <td>{{ a.reason }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty">No upcoming appointments yet.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

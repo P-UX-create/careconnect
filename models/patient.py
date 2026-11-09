@@ -6,6 +6,8 @@ class Patient(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), unique=True)
+
     first_name = db.Column(db.String(50), nullable=False)
 
     last_name = db.Column(db.String(50), nullable=False)
@@ -25,3 +27,8 @@ class Patient(db.Model):
     emergency_contact = db.Column(db.String(20))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    user = db.relationship(
+        "User",
+        backref=db.backref("patient_profile", uselist=False)
+    )

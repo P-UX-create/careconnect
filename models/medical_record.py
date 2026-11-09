@@ -18,4 +18,7 @@ class MedicalRecord(db.Model):
 
     visit_date = db.Column(db.Date)
 
-    patient = db.relationship("Patient", backref="medical_records")
+    patient = db.relationship(
+        "Patient",
+        backref=db.backref("medical_records", cascade="all, delete-orphan")
+    )

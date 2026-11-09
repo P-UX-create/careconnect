@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}My Details – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>My Details</h2>
+
+<div class="panel">
+
+<form method="POST">
+
+<div class="form-grid">
+
+<input type="text" name="first_name" value="{{ patient.first_name }}" placeholder="First Name" required>
+
+<input type="text" name="last_name" value="{{ patient.last_name }}" placeholder="Last Name" required>
+
+<select name="gender" required>
+    <option {{ 'selected' if patient.gender == 'Male' }}>Male</option>
+    <option {{ 'selected' if patient.gender == 'Female' }}>Female</option>
+</select>
+
+<input type="date" name="date_of_birth" title="Date of birth" value="{{ patient.date_of_birth or '' }}">
+
+<input type="text" name="phone" value="{{ patient.phone or '' }}" placeholder="Phone Number">
+
+<input type="text" name="blood_group" value="{{ patient.blood_group or '' }}" placeholder="Blood Group">
+
+<input type="text" name="emergency_contact" value="{{ patient.emergency_contact or '' }}" placeholder="Emergency Contact">
+
+</div>
+
+<textarea name="address" rows="3" placeholder="Home Address">{{ patient.address or '' }}</textarea>
+
+<button class="btn-submit" type="submit">Save Changes</button>
+
+</form>
+
+</div>
+
+{% endblock %}

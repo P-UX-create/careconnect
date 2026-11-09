@@ -6,14 +6,11 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login</title>
+<title>Login – CareConnect</title>
 
-<link rel="stylesheet"
-href="{{ url_for('static',
-filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
@@ -25,33 +22,53 @@ filename='css/style.css') }}">
 
 <h3>Clinic Appointment System</h3>
 
-<p>
-Welcome back.<br>
-Please login to continue.
-</p>
+<div class="role-tabs">
+    <a class="{{ 'active' if role == 'Patient' }}" href="{{ url_for('auth.login', role='patient') }}">I am a Patient</a>
+    <a class="{{ 'active' if role == 'Doctor' }}" href="{{ url_for('auth.login', role='doctor') }}">I am a Doctor</a>
+</div>
 
+<p>Log in as a <strong>{{ role|lower }}</strong> to continue.</p>
 
-<form method="POST">
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('auth.login', role=role|lower, next=request.args.get('next')) }}">
+
+<input type="hidden" name="role" value="{{ role|lower }}">
 
 <input
 type="text"
 name="username"
 placeholder="Username"
+autocomplete="username"
 required>
 
 <input
 type="password"
 name="password"
 placeholder="Password"
+autocomplete="current-password"
 required>
 
 <button type="submit">
 
-Login
+Login as {{ role }}
 
 </button>
 
 </form>
+
+<p class="switch-link">
+    New here?
+    <a href="{{ url_for('auth.register_patient' if role == 'Patient' else 'auth.register_doctor') }}">
+        Create a {{ role|lower }} account
+    </a>
+</p>
+
+<a class="back-home" href="{{ url_for('home') }}">&larr; Back to home</a>
 
 </div>
 

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Find a Doctor – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>Find a Doctor</h2>
+
+<div class="panel">
+
+    <form method="GET" class="search-form">
+        <input type="text" name="search" value="{{ search }}" placeholder="Search by name or specialty...">
+        <button class="btn-submit" type="submit">Search</button>
+    </form>
+
+</div>
+
+{% if doctors %}
+
+<div class="doctor-grid">
+
+{% for d in doctors %}
+
+    <div class="doctor-card">
+
+        <div class="doctor-avatar">{{ d.fullname[0]|upper }}</div>
+
+        <h3>Dr. {{ d.fullname }}</h3>
+
+        <span class="badge">{{ d.specialization }}</span>
+
+        <ul class="doctor-facts">
+            {% if d.room_number %}<li>🚪 Room {{ d.room_number }}</li>{% endif %}
+            {% if d.phone %}<li>📞 {{ d.phone }}</li>{% endif %}
+            <li>🕒
+                {% set days = days_for(d) %}
+                {% if days %}{{ days|join(", ") }}{% else %}No times set yet{% endif %}
+            </li>
+        </ul>
+
+        {% if d.about %}<p class="doctor-about">{{ d.about|truncate(110) }}</p>{% endif %}
+
+        <a class="btn" href="{{ url_for('patient.book', id=d.id) }}">View details &amp; Book</a>
+
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="panel"><p class="empty">No doctors found{% if search %} for "{{ search }}"{% endif %}.</p></div>
+
+{% endif %}
+
+{% endblock %}

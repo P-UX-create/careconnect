@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareConnect – Clinic Appointment System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="home">
+
+<header class="home-bar">
+    <a class="home-logo" href="{{ url_for('home') }}">🏥 CareConnect</a>
+    <div class="home-bar-links">
+        {% if current_user.is_authenticated %}
+            <a class="home-btn solid" href="{{ url_for('dashboard') }}">Go to Dashboard</a>
+        {% else %}
+            <a class="home-btn solid" href="{{ url_for('auth.login') }}">Login</a>
+        {% endif %}
+    </div>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="hero-text">
+        <span class="hero-tag">Clinic Appointment System</span>
+        <h1>Book your doctor's appointment online.</h1>
+        <p>Patients can find a doctor and book a time that suits them.
+        Doctors set the days and hours they are available.</p>
+        <div class="hero-actions">
+            {% if current_user.is_authenticated %}
+                <a class="home-btn large" href="{{ url_for('dashboard') }}">Go to Dashboard</a>
+            {% else %}
+                <a class="home-btn large" href="{{ url_for('auth.login', role='patient') }}">I am a Patient</a>
+                <a class="home-btn large outline" href="{{ url_for('auth.login', role='doctor') }}">I am a Doctor</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">🏥</div>
+</section>
+
+<section class="features">
+    <h2>How it works</h2>
+    <div class="feature-grid">
+        <article><h3>👨‍⚕️ Doctors</h3><p>Register, add your specialty and details, and set the days and hours you are available.</p></article>
+        <article><h3>👤 Patients</h3><p>Register, browse doctors, and see their specialty, room and available times.</p></article>
+        <article><h3>📅 Booking</h3><p>Pick a date and a free time slot, give your reason and confirm your appointment.</p></article>
+        <article><h3>✅ Manage</h3><p>Patients can cancel. Doctors can complete or cancel appointments.</p></article>
+    </div>
+</section>
+
+</main>
+
+<footer class="home-foot">© 2026 CareConnect · Clinic Appointment System</footer>
+
+</body>
+</html>

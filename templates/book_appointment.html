@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Book Dr. {{ doctor.fullname }} – CareConnect{% endblock %}
+
+{% block content %}
+
+<a class="back-link" href="{{ url_for('patient.doctors') }}">&larr; All doctors</a>
+
+<h2>Book with Dr. {{ doctor.fullname }}</h2>
+
+<div class="dashboard-row">
+
+    <div class="panel">
+
+        <h3>Doctor Details</h3>
+
+        <table>
+            <tr><td>Name</td><td>Dr. {{ doctor.fullname }}</td></tr>
+            <tr><td>Specialty</td><td>{{ doctor.specialization }}</td></tr>
+            <tr><td>Room</td><td>{{ doctor.room_number or "—" }}</td></tr>
+            <tr><td>Phone</td><td>{{ doctor.phone or "—" }}</td></tr>
+            <tr><td>Email</td><td>{{ doctor.email or "—" }}</td></tr>
+        </table>
+
+        {% if doctor.about %}
+        <h3 class="sub">About</h3>
+        <p>{{ doctor.about }}</p>
+        {% endif %}
+
+    </div>
+
+    <div class="panel">
+
+        <h3>Available Times</h3>
+
+        {% if windows %}
+        <table>
+            {% for w in windows %}
+            <tr><td>{{ days[w.day_of_week] }}</td><td>{{ fmt_time(w.start_time) }} – {{ fmt_time(w.end_time) }}</td></tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p class="empty">This doctor has not set any available times yet.</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <h3>Book an Appointment</h3>
+
+    {% if not windows %}
+
+        <p class="empty">You can book once this doctor adds their available times.</p>
+
+    {% else %}
+
+        <form method="GET" class="search-form">
+            <label for="date">1. Choose a date</label>
+            <input type="date" id="date" name="date" min="{{ today }}" value="{{ chosen.isoformat() if chosen else '' }}" required>
+            <button class="btn-submit" type="submit">Check available times</button>
+        </form>
+
+        {% if message %}
+            <div class="alert alert-error">{{ message }}</div>
+        {% endif %}
+
+        {% if chosen and slots %}
+
+        <form method="POST" action="{{ url_for('patient.book', id=doctor.id, date=chosen.isoformat()) }}" class="slot-form">
+
+            <label>2. Choose a time on {{ chosen.strftime("%A, %d %B %Y") }}</label>
+
+            <div class="slot-list">
+                {% for s in slots %}
+                <label class="slot">
+                    <input type="radio" name="time" value="{{ s.strftime('%H:%M') }}" required>
+                    <span>{{ fmt_time(s) }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <label for="reason">3. Reason for the visit</label>
+            <textarea id="reason" name="reason" rows="3" placeholder="Briefly describe why you want to see the doctor" required></textarea>
+
+            <button class="btn-submit" type="submit">Confirm Appointment</button>
+
+        </form>
+
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

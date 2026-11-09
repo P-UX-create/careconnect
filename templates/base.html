@@ -7,14 +7,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CareConnect Clinic</title>
+    <title>{% block title %}CareConnect Clinic{% endblock %}</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-
-    <script defer
-            src="{{ url_for('static', filename='js/script.js') }}">
-    </script>
 
 </head>
 
@@ -24,38 +20,36 @@
 
 <h2>🏥 CareConnect</h2>
 
-<a href="{{ url_for('dashboard') }}">
-🏠 Dashboard
-</a>
+{% if current_user.is_authenticated and current_user.role == "Doctor" %}
 
-<a href="{{ url_for('patient.patients') }}">
-👨 Patients
-</a>
+<a href="{{ url_for('doctor.dashboard') }}">🏠 Dashboard</a>
+<a href="{{ url_for('doctor.profile') }}">🩺 My Details</a>
+<a href="{{ url_for('doctor.availability') }}">🕒 My Availability</a>
+<a href="{{ url_for('doctor.appointments') }}">📅 Appointments</a>
 
-<a href="{{ url_for('doctor.doctors') }}">
-👨‍⚕️ Doctors
-</a>
+{% elif current_user.is_authenticated %}
 
-<a href="{{ url_for('appointment.appointments') }}">
-📅 Appointments
-</a>
+<a href="{{ url_for('patient.dashboard') }}">🏠 Dashboard</a>
+<a href="{{ url_for('patient.doctors') }}">🔍 Find a Doctor</a>
+<a href="{{ url_for('patient.appointments') }}">📅 My Appointments</a>
+<a href="{{ url_for('patient.profile') }}">👤 My Details</a>
 
-<a href="{{ url_for('report.reports') }}">
-📊 Reports
-</a>
+{% else %}
+
+<a href="{{ url_for('home') }}">🏠 Home</a>
+<a href="{{ url_for('auth.login') }}">🔑 Login</a>
+
+{% endif %}
+
+{% if current_user.is_authenticated %}
 
 <hr>
 
-<a href="{{ url_for('auth.logout') }}">
-🚪 Logout
-</a>
+<a href="{{ url_for('auth.logout') }}">🚪 Logout</a>
 
+{% endif %}
 
-<div style="position:absolute;
-bottom:20px;
-left:20px;
-color:white;
-font-size:12px;">
+<div class="sidebar-footer">
 
 CareConnect v1.0
 
@@ -64,8 +58,6 @@ CareConnect v1.0
 © 2026
 
 </div>
-
-
 
 </div>
 
@@ -76,18 +68,77 @@ CareConnect v1.0
 
         <h1>Clinic Appointment System</h1>
 
+        {% if current_user.is_authenticated %}
+        <span class="user-chip">
+            {% if current_user.role == "Doctor" %}Dr. {% endif %}{{ current_user.fullname }}
+            <small>{{ current_user.role }}</small>
+        </span>
+        {% endif %}
+
     </header>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+
+        {% if category == "appointment_success" %}
+
+        <div class="appointment-card">
+
+            <div class="appointment-header">
+
+                <span class="check-icon">✔</span>
+
+                <h3>Appointment Confirmed</h3>
+
+            </div>
+
+            <hr>
+
+            <p><strong>Doctor:</strong> {{ message.doctor }}{% if message.specialization %} ({{ message.specialization }}){% endif %}</p>
+
+            {% if message.room %}<p><strong>Room:</strong> {{ message.room }}</p>{% endif %}
+
+            <p><strong>Date:</strong> {{ message.date }}</p>
+
+            <p><strong>Time:</strong> {{ message.time }}</p>
+
+            <p>
+
+                <strong>Status:</strong>
+
+                <span class="status-badge">
+                    {{ message.status }}
+                </span>
+
+            </p>
+
+            <div class="appointment-note">
+
+                Please arrive at the clinic
+                <strong>15 minutes before your appointment.</strong>
+
+            </div>
+
+            <button
+                class="btn btn-success mt-3"
+                onclick="this.parentElement.style.display='none'">
+
+                Close
+
+            </button>
+
+        </div>
+
+        {% else %}
+
+            <div class="alert alert-{{ category }}">
                 {{ message }}
             </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 
+        {% endif %}
+
+    {% endfor %}
+    {% endwith %}
 
     {% block content %}
 

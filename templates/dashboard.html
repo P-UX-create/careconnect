@@ -16,63 +16,43 @@ Manage patients, doctors, appointments and reports from one place.
 
 <div class="cards">
 
-    <div class="card">
-        <h3>Total Patients</h3>
+   <div class="dashboard-grid">
+
+    <div class="dashboard-card green">
+
+        <h3>👥 Patients Today</h3>
+
         <h1>{{ patient_count }}</h1>
+
     </div>
 
-    <div class="card">
-        <h3>Total Doctors</h3>
+    <div class="dashboard-card blue">
+
+        <h3>👨‍⚕️ Doctors Available</h3>
+
         <h1>{{ doctor_count }}</h1>
+
     </div>
 
-    <div class="card">
-        <h3>Appointments</h3>
-        <h1>{{ appointment_count }}</h1>
+    <div class="dashboard-card purple">
+
+        <h3>📅 Today's Appointments</h3>
+
+        <h1>{{ today_appointments }}</h1>
+
+    </div>
+
+    <div class="dashboard-card red">
+
+        <h3>❌ Cancelled Today</h3>
+
+        <h1>{{ cancelled_today }}</h1>
+
+        <small>Needs Attention</small>
+
     </div>
 
 </div>
-
-
-<div class="panel">
-
-<h3>Today's Overview</h3>
-
-<div class="cards">
-
-<div class="card">
-
-<h4>Patients</h4>
-
-<p>Total registered patients in the system.</p>
-
-</div>
-
-<div class="card">
-
-<h4>Doctors</h4>
-
-<p>Manage doctors and their specialties.</p>
-
-</div>
-
-<div class="card">
-
-<h4>Appointments</h4>
-
-<p>Track and manage clinic appointments.</p>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="dashboard-row">
-
-    <div class="panel">
 
         <h3>Quick Actions</h3>
 
@@ -160,43 +140,5 @@ Manage patients, doctors, appointments and reports from one place.
 </ol>
 
 </div>
-
-
-
-<div class="panel">
-
-<h3>Quick Statistics</h3>
-
-<table>
-
-<tr>
-
-<td>Patients Registered</td>
-
-<td>{{ patient_count }}</td>
-
-</tr>
-
-<tr>
-
-<td>Doctors Available</td>
-
-<td>{{ doctor_count }}</td>
-
-</tr>
-
-<tr>
-
-<td>Appointments Booked</td>
-
-<td>{{ appointment_count }}</td>
-
-</tr>
-
-</table>
-
-</div>
-
-
 
 {% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Registration – CareConnect</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+
+<div class="login-box wide">
+
+<h1>🏥 Patient Registration</h1>
+
+<p>Create your patient account to book appointments.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<form method="POST" class="reg-form">
+
+<div class="form-grid">
+
+<input type="text" name="first_name" placeholder="First Name *" value="{{ form.get('first_name', '') }}" required>
+
+<input type="text" name="last_name" placeholder="Last Name *" value="{{ form.get('last_name', '') }}" required>
+
+<select name="gender" required>
+    <option value="">Gender *</option>
+    <option {{ 'selected' if form.get('gender') == 'Male' }}>Male</option>
+    <option {{ 'selected' if form.get('gender') == 'Female' }}>Female</option>
+</select>
+
+<input type="date" name="date_of_birth" title="Date of birth" value="{{ form.get('date_of_birth', '') }}">
+
+<input type="text" name="phone" placeholder="Phone Number" value="{{ form.get('phone', '') }}">
+
+<input type="email" name="email" placeholder="Email Address *" value="{{ form.get('email', '') }}" required>
+
+<input type="text" name="blood_group" placeholder="Blood Group (optional)" value="{{ form.get('blood_group', '') }}">
+
+<input type="text" name="emergency_contact" placeholder="Emergency Contact (optional)" value="{{ form.get('emergency_contact', '') }}">
+
+<input type="text" name="username" placeholder="Choose a Username *" value="{{ form.get('username', '') }}" autocomplete="username" required>
+
+<input type="password" name="password" placeholder="Password (min. 6 characters) *" autocomplete="new-password" required>
+
+</div>
+
+<textarea name="address" rows="2" placeholder="Home Address (optional)">{{ form.get('address', '') }}</textarea>
+
+<button type="submit">Create Patient Account</button>
+
+</form>
+
+<p class="switch-link">Already registered? <a href="{{ url_for('auth.login', role='patient') }}">Login as a patient</a></p>
+
+<a class="back-home" href="{{ url_for('home') }}">&larr; Back to home</a>
+
+</div>
+
+</body>
+</html>

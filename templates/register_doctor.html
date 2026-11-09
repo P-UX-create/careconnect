@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Registration – CareConnect</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+
+<div class="login-box wide">
+
+<h1>🏥 Doctor Registration</h1>
+
+<p>Create your doctor account. You can set your available times after logging in.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<form method="POST" class="reg-form">
+
+<div class="form-grid">
+
+<input type="text" name="fullname" placeholder="Full Name (e.g. Ada Obi) *" value="{{ form.get('fullname', '') }}" required>
+
+<input type="text" name="specialization" placeholder="Specialization (e.g. Dentist) *" value="{{ form.get('specialization', '') }}" required>
+
+<input type="text" name="phone" placeholder="Phone Number" value="{{ form.get('phone', '') }}">
+
+<input type="text" name="room_number" placeholder="Room Number" value="{{ form.get('room_number', '') }}">
+
+<input type="email" name="email" placeholder="Email Address *" value="{{ form.get('email', '') }}" required>
+
+<input type="text" name="username" placeholder="Choose a Username *" value="{{ form.get('username', '') }}" autocomplete="username" required>
+
+<input type="password" name="password" placeholder="Password (min. 6 characters) *" autocomplete="new-password" required>
+
+</div>
+
+<textarea name="about" rows="3" placeholder="About you: experience, qualifications, what you treat (optional)">{{ form.get('about', '') }}</textarea>
+
+<button type="submit">Create Doctor Account</button>
+
+</form>
+
+<p class="switch-link">Already registered? <a href="{{ url_for('auth.login', role='doctor') }}">Login as a doctor</a></p>
+
+<a class="back-home" href="{{ url_for('home') }}">&larr; Back to home</a>
+
+</div>
+
+</body>
+</html>

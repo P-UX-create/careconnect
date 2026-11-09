@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Appointments – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>Appointments</h2>
+
+<div class="panel">
+
+{% if appointments %}
+
+<table>
+<thead>
+<tr><th>Patient</th><th>Phone</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Actions</th></tr>
+</thead>
+<tbody>
+{% for a in appointments %}
+<tr>
+    <td>{{ a.patient.first_name }} {{ a.patient.last_name }}</td>
+    <td>{{ a.patient.phone or "—" }}</td>
+    <td>{{ a.appointment_date.strftime("%a, %d %b %Y") }}</td>
+    <td>{{ fmt_time(a.appointment_time) }}</td>
+    <td>{{ a.reason }}</td>
+    <td><span class="pill pill-{{ a.status|lower }}">{{ a.status }}</span></td>
+    <td>
+        {% if a.status == "Scheduled" %}
+        <a class="complete-btn" href="{{ url_for('doctor.complete', id=a.id) }}">Complete</a>
+        <a class="cancel-btn" href="{{ url_for('doctor.cancel', id=a.id) }}" onclick="return confirm('Cancel this appointment?')">Cancel</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% else %}
+
+<p class="empty">No patients have booked with you yet.</p>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

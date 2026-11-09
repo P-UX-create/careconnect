@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}My Availability – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>My Availability</h2>
+
+<p>Add the days and hours you see patients each week. Patients can book 30-minute slots inside these times.</p>
+
+<div class="panel">
+
+    <h3>Add Available Time</h3>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <select name="day" required>
+                <option value="">Select Day</option>
+                {% for d in days %}
+                <option value="{{ loop.index0 }}">{{ d }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="time-field">
+                <label for="start_time">From</label>
+                <input type="time" id="start_time" name="start_time" required>
+            </div>
+
+            <div class="time-field">
+                <label for="end_time">To</label>
+                <input type="time" id="end_time" name="end_time" required>
+            </div>
+
+        </div>
+
+        <button class="btn-submit" type="submit">Add Time</button>
+
+    </form>
+
+</div>
+
+<div class="panel">
+
+    <h3>My Weekly Schedule</h3>
+
+    {% if windows %}
+    <table>
+        <thead><tr><th>Day</th><th>From</th><th>To</th><th>Action</th></tr></thead>
+        <tbody>
+        {% for w in windows %}
+        <tr>
+            <td>{{ days[w.day_of_week] }}</td>
+            <td>{{ fmt_time(w.start_time) }}</td>
+            <td>{{ fmt_time(w.end_time) }}</td>
+            <td>
+                <a class="delete-btn" href="{{ url_for('doctor.delete_availability', id=w.id) }}" onclick="return confirm('Remove this time?')">Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty">You have not added any available times yet.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

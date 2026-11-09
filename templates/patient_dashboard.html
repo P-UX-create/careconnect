@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>Welcome, {{ patient.first_name }}</h2>
+
+<p>Find a doctor, pick a time that suits you and book your appointment.</p>
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card blue">
+        <h3>📅 Upcoming Appointments</h3>
+        <h1>{{ upcoming_count }}</h1>
+    </div>
+
+    <div class="dashboard-card green">
+        <h3>✅ Completed Visits</h3>
+        <h1>{{ completed_count }}</h1>
+    </div>
+
+    <div class="dashboard-card purple">
+        <h3>👨‍⚕️ Doctors Available</h3>
+        <h1>{{ doctor_count }}</h1>
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <h3>Quick Actions</h3>
+
+    <a class="btn btn-inline" href="{{ url_for('patient.doctors') }}">Find a Doctor &amp; Book</a>
+    <a class="btn btn-inline" href="{{ url_for('patient.appointments') }}">My Appointments</a>
+
+</div>
+
+<div class="panel">
+
+    <h3>Your Next Appointments</h3>
+
+    {% if upcoming %}
+    <table>
+        <thead><tr><th>Doctor</th><th>Specialty</th><th>Date</th><th>Time</th><th>Room</th></tr></thead>
+        <tbody>
+        {% for a in upcoming %}
+        <tr>
+            <td>Dr. {{ a.doctor.fullname }}</td>
+            <td>{{ a.doctor.specialization }}</td>
+            <td>{{ a.appointment_date.strftime("%a, %d %b %Y") }}</td>
+            <td>{{ fmt_time(a.appointment_time) }}</td>
+            <td>{{ a.doctor.room_number or "—" }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty">You have no upcoming appointments. <a href="{{ url_for('patient.doctors') }}">Book one now</a>.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

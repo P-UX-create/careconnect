@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}My Details – CareConnect{% endblock %}
+
+{% block content %}
+
+<h2>My Details</h2>
+
+<p>Patients see this information when they choose a doctor.</p>
+
+<div class="panel">
+
+<form method="POST">
+
+<div class="form-grid">
+
+<input type="text" name="fullname" value="{{ doctor.fullname }}" placeholder="Full Name" required>
+
+<input type="text" name="specialization" value="{{ doctor.specialization or '' }}" placeholder="Specialization" required>
+
+<input type="text" name="phone" value="{{ doctor.phone or '' }}" placeholder="Phone Number">
+
+<input type="text" name="room_number" value="{{ doctor.room_number or '' }}" placeholder="Room Number">
+
+</div>
+
+<textarea name="about" rows="4" placeholder="About you: experience, qualifications, what you treat">{{ doctor.about or '' }}</textarea>
+
+<label class="check-row">
+    <input type="checkbox" name="available" {{ 'checked' if doctor.available }}>
+    I am accepting new appointments
+</label>
+
+<button class="btn-submit" type="submit">Save Changes</button>
+
+</form>
+
+</div>
+
+{% endblock %}
